@@ -12,29 +12,39 @@ function eventCheck()
 	case $1 in
 
 		$LADDER)
-			player1CurrentPosition=$((player1CurrentPosition + dieResult))
+			playerCurrentPosition=$((playerCurrentPosition + dieResult))
 		;;
 
 		$SNAKE)
-			player1CurrentPosition=$((player1CurrentPosition - dieResult))
+			playerCurrentPosition=$((playerCurrentPosition - dieResult))
 		;;
 
 		*)
 		#default is no play condition
 		;;
 	esac
-	echo $player1CurrentPosition
+	echo $playerCurrentPosition
 }
 
-player1CurrentPosition=$START_POSITION
-while ((player1CurrentPosition<WINNING_POSITION))
-do
 
-	dieResult=$(((RANDOM%6)+1))
-	eventResult=$((RANDOM%3))
-	player1CurrentPosition=$(eventCheck $eventResult)
-	if (( player1CurrentPosition<0 ))
-	then
-		player1CurrentPosition=$START_POSITION
-	fi
-done
+function game()
+{
+	playerCurrentPosition=$START_POSITION
+
+	while ((playerCurrentPosition<WINNING_POSITION))
+	do
+
+		dieResult=$(((RANDOM%6)+1))
+		eventResult=$((RANDOM%3))
+		playerCurrentPosition=$(eventCheck $eventResult)
+		if (( playerCurrentPosition<START_POSITION ))
+		then
+			playerCurrentPosition=$START_POSITION
+		elif (( playerCurrentPosition>WINNING_POSITION ))
+		then
+			playerCurrentPosition=$(( playerCurrentPosition - dieResult ))
+		fi
+	done
+	echo $playerCurrentPosition
+}
+player1CurrentPosition=$(game)
