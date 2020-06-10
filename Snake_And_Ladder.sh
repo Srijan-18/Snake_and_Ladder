@@ -1,4 +1,4 @@
-#!/bin/bash -x
+
 
 #CONSTANTS
 
@@ -46,14 +46,14 @@ function game()
 	do
 
 #PLAYER 1 DIE ROLL
-		
-		dieResult=$(((RANDOM%6)+1));
+
+		dieResult=$(( (RANDOM%6) + 1 ));
 		((player1RollCount++))
 		eventResult=$LADDER
 
 		while (( eventResult==LADDER ))
 		do
-			eventResult=$((RANDOM%3))
+			eventResult=$(( RANDOM%3 ))
 			playerCurrentPosition=$player1CurrentPosition
 			player1CurrentPosition=$(eventCheck $eventResult)
 			if (( player1CurrentPosition<START_POSITION ))
@@ -66,7 +66,7 @@ function game()
 			fi
 		done
 		player1Positions[$player1RollCount]=$player1CurrentPosition
-
+		echo "Player 1 position after $player1RollCount Rolls ---> $player1CurrentPosition"
 #CONDITION CHECK FOR THE WINNING CASE OF PLAYER 1 IF FALSE THEN ROLL DIE FOR PLAYER 2
 
 		if ((player1Positions[$player1RollCount] != WINNING_POSITION))
@@ -89,6 +89,7 @@ function game()
 				fi
 			done
 			player2Positions[$player2RollCount]=$player2CurrentPosition
+			echo "Player 2 position after $player2RollCount Rolls ---> $player2CurrentPosition"
 		fi
 	done
 	}
